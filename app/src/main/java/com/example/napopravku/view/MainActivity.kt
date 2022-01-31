@@ -16,23 +16,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-
         //инициализация первого фрагмента - репозиториес фрагмент
-
         setupFragment()
     }
 
     private fun setupFragment() {
-
         val fragment = RepositoriesFragment.newInstance()
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.container, fragment)
         fragmentTransaction.commit()
-
-
     }
 }

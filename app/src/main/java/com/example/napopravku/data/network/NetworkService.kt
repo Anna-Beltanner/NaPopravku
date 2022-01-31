@@ -19,18 +19,15 @@ class NetworkService {
 
         fun getRetrofitInstance(context: Context): Retrofit {
 
-            //берем текущее соединение, если нет никакого соединения, оно null
-
+            //берем текущее интнернет соединение, если нет никакого соединения, оно null
             val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val activeNetwork = cm.activeNetwork
             val isConnected = activeNetwork != null
 
-
-//проверяем, есть ли интернет
+            //проверяем, есть ли интернет
             val headerInterceptor = Interceptor { chain ->
-                if (isConnected == false) {
+                if (!isConnected) {
                     throw IOException("Нет интернет-соединения")
-
                 }
 
                 val builder = chain.request().newBuilder()

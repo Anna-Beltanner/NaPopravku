@@ -1,50 +1,53 @@
 package com.example.napopravku.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import com.example.napopravku.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.napopravku.App
 import com.example.napopravku.data.model.RepositoriesModel
+import com.example.napopravku.databinding.FragmentRepositoriesInfoBinding
+import com.example.napopravku.viewmodel.RepositoriesInfoViewModel
+import com.example.napopravku.viewmodel.RepositoriesViewModel
 
 class RepositoriesInfoFragment : Fragment() {
 
+
+    private lateinit var binding: FragmentRepositoriesInfoBinding
+    private val viewModel by lazy { ViewModelProvider(this).get(RepositoriesInfoViewModel::class.java) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_repositories_info, container, false)
+        binding = FragmentRepositoriesInfoBinding.inflate(inflater, container, false)
+
+        // init view model retrofit
+        val retrofitInstance = (requireActivity().application as App).retrofitInstance
+        viewModel.setRetrofitInstance(retrofitInstance)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //val model = arguments?.getParcelable<RepositoriesModel>(KEY_REPOSITORIES_MODEL)
-        //получаем модель
+        val model = arguments?.getParcelable<RepositoriesModel>(KEY_REPOSITORIES_MODEL)
+
+        viewModel.loadLastCommit(model?.owner?.login ?: return, model.name)
+        //получаем модель и заполняем данные на экране
     }
 
-//    private fun setupFragment() {
-//
-//        val fragment = RepositoriesInfoFragment.newInstance(model)
-//        val fragmentManager: FragmentManager = supportFragmentManager
-//        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-//        fragmentTransaction.replace(R.id.container, fragment)
-//        fragmentTransaction.commit()
-
     companion object {
-        val KEY_REPOSITORIES_MODEL = "keyRepositoriesModel"
-
+        const val KEY_REPOSITORIES_MODEL = "keyRepositoriesModel"
 
         @JvmStatic
         fun newInstance(model: RepositoriesModel) =
             RepositoriesInfoFragment().apply {
                 arguments = Bundle().apply {
-                    //putParcelable(KEY_REPOSITORIES_MODEL, model)
+                    putParcelable(KEY_REPOSITORIES_MODEL, model)
                 }
             }
     }

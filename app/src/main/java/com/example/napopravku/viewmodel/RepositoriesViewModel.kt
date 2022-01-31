@@ -7,11 +7,13 @@ import com.example.napopravku.data.model.RepositoriesModel
 import com.example.napopravku.data.network.Api
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 //логика запроса в лист паблик репозиториес
 //livedata списка репозиторесмодел, то, что возвращается в ответ на запрос
 
 class RepositoriesViewModel : ViewModel() {
+
 
     /*private val repository = CharactersRepository()
     private val pageListConfig: PagedList.Config = PagedList.Config.Builder()
@@ -23,33 +25,38 @@ class RepositoriesViewModel : ViewModel() {
     val charactersPagedListLiveData: LiveData<PagedList<GetCharacterByIdResponse>> =
         LivePagedListBuilder(dataSourceFactory, pageListConfig).build()*/
 
+    private var retrofitInstance: Api? = null
 
-    var repositoriesModelLiveData: MutableLiveData<List<RepositoriesModel>>
+    private var repositoriesModelLiveData: MutableLiveData<List<RepositoriesModel>> =
+        MutableLiveData()
 
-    init {
+    private var errorLiveData: MutableLiveData<String> =
+        MutableLiveData()
 
-        //создаем объект LiveData
-        repositoriesModelLiveData = MutableLiveData()
-
+    fun setRetrofitInstance(api: Api) {
+        retrofitInstance = api
     }
 
     fun getRepositoriesModelObserver(): MutableLiveData<List<RepositoriesModel>> {
         return repositoriesModelLiveData
-
     }
 
-    fun createApiCall(retrofitInstance: Api, id: Int? = null) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun getErrorLiveData(): MutableLiveData<String> {
+        return errorLiveData
+    }
 
-
-            //val response = listOf<RepositoriesModel>(RepositoriesModel(id = 1, "blalbabla", "fdf", "dfdf"), RepositoriesModel(2, "blblblblalb", "dfd", "fdfdf"))
-
-            val response = retrofitInstance.getDataFromGithubApi(id)
-            repositoriesModelLiveData.postValue(response)
-
-
+    fun createApiCall(id: Int? = null) {
+        viewModelScope.launch {
+            runCatching {
+                withContext(Dispatchers.IO) {
+                    retrofitInstance?.getDataFromGithubApi(id)
+                }
+            }.onSuccess {
+                repositoriesModelLiveData.postValue(it)
+            }.onFailure {
+                // Здесь отображаются ошибки которые возникли во время выполнения запроса, в том числе отсуствие интернета.
+                errorLiveData.postValue(it.localizedMessage)
+            }
         }
     }
-
-
 }

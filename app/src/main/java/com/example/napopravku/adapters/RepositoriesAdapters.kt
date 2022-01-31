@@ -1,24 +1,22 @@
 package com.example.napopravku.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.napopravku.R
 import com.example.napopravku.data.model.RepositoriesModel
-import com.example.napopravku.databinding.ActivityMainBinding
 import com.example.napopravku.databinding.ItemViewBinding
-import java.text.FieldPosition
 
 //данный класс отвечает за логику работы RV
 //корутина уходит из UI потока и делает запрос в сеть, возвращает результат в UI поток
 
 
-class RepositoriesAdapters (val onLastPosition: (Int) -> Unit) :
+class RepositoriesAdapters(
+    val onItemClickListener: (RepositoriesModel) -> Unit,
+    val onLastPosition: (Int) -> Unit
+) :
     PagingDataAdapter<RepositoriesModel, RepositoriesAdapters.MyViewHolder>(DIFF_CALLBACK) {
 
     var items = listOf<RepositoriesModel>()
@@ -31,36 +29,30 @@ class RepositoriesAdapters (val onLastPosition: (Int) -> Unit) :
         notifyDataSetChanged()
     }
 
-    class MyViewHolder(var itemViewBinding: ItemViewBinding) :
+    class MyViewHolder(var itemViewBinding: ItemViewBinding, val onItemClickListener: (RepositoriesModel) -> Unit) :
         RecyclerView.ViewHolder(itemViewBinding.root) {
 
-        //val tvTitle = view.findViewById<ImageView>(R.id.iv)
-
-
         fun bind(data: RepositoriesModel) {
+            itemView.setOnClickListener {
+                onItemClickListener.invoke(data)
+            }
 
-            itemViewBinding.fullName.setText(data.full_name)
-           itemViewBinding.ownerLogin.setText(data.owner.login)
-
+            itemViewBinding.fullName.text = data.full_name
+            itemViewBinding.ownerLogin.text = data.owner.login
 
             val url = data.owner.avatar_url
-
             Glide.with(itemView.context)
                 .load(url)
                 .into(itemViewBinding.ownerAvatar)
-
-
         }
-
-
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RepositoriesAdapters.MyViewHolder {
+    ): MyViewHolder {
         binding = ItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding)
+        return MyViewHolder(binding, onItemClickListener)
     }
 
     override fun onBindViewHolder(holder: RepositoriesAdapters.MyViewHolder, position: Int) {
