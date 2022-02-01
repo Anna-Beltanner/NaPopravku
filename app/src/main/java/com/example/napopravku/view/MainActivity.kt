@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        //инициализация первого фрагмента - репозиториес фрагмент
+        //инициализация первого фрагмента
         setupFragment()
     }
 

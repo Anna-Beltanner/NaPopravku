@@ -9,21 +9,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-//логика запроса в лист паблик репозиториес
-//livedata списка репозиторесмодел, то, что возвращается в ответ на запрос
+//логика запроса в список репозиториев
+//livedata списка RepositoriesModel, то, что возвращается в ответ на запрос
 
 class RepositoriesViewModel : ViewModel() {
 
-
-    /*private val repository = CharactersRepository()
-    private val pageListConfig: PagedList.Config = PagedList.Config.Builder()
-        .setPageSize(Constants.PAGE_SIZE)
-        .setPrefetchDistance(Constants.PREFETCH_DISTANCE)
-        .build()
-
-    private val dataSourceFactory = CharactersDataSourceFactory(viewModelScope, repository)
-    val charactersPagedListLiveData: LiveData<PagedList<GetCharacterByIdResponse>> =
-        LivePagedListBuilder(dataSourceFactory, pageListConfig).build()*/
 
     private var retrofitInstance: Api? = null
 
@@ -54,7 +44,7 @@ class RepositoriesViewModel : ViewModel() {
             }.onSuccess {
                 repositoriesModelLiveData.postValue(it)
             }.onFailure {
-                // Здесь отображаются ошибки которые возникли во время выполнения запроса, в том числе отсуствие интернета.
+                // Здесь отображаются ошибки, которые возникли во время выполнения запроса, в том числе отсуствие интернета.
                 errorLiveData.postValue(it.localizedMessage)
             }
         }

@@ -1,12 +1,27 @@
 package com.example.napopravku.data.model
 
-/**
- * Created on 31.01.2022 by Andrey Voloshin.
- */
+
 data class CommitModel(
-    val commit: DetailCommitModel
+    val commit: DetailCommitModel,
+    val parents: List<ParentsModel>
 )
 
 data class DetailCommitModel(
-    val message: String
+    val message: String,
+    val author: AuthorModel
+
 )
+
+
+data class AuthorModel(
+    val name: String,
+    val email: String,
+    val date: String
+)
+
+data class ParentsModel(
+    val url: String,
+    val sha: String
+
+)
+

@@ -3,11 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/NaPopravku/app/src/main/res/layout/fragment_repositories.xml" value="0.5223958333333333" />
+        <entry key="..\:/AndroidProjects/NaPopravku/app/src/main/res/layout/fragment_repositories_info.xml" value="0.4009259259259259" />
+        <entry key="..\:/AndroidProjects/NaPopravku/app/src/main/res/layout/item_view.xml" value="0.4009259259259259" />
         <entry key="..\:/Users/anuta/AndroidStudioProjects/NaPopravku/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/anuta/AndroidStudioProjects/NaPopravku/app/src/main/res/layout/fragment_owner.xml" value="0.1" />
         <entry key="..\:/Users/anuta/AndroidStudioProjects/NaPopravku/app/src/main/res/layout/fragment_repositories.xml" value="0.25" />
-        <entry key="..\:/Users/anuta/AndroidStudioProjects/NaPopravku/app/src/main/res/layout/fragment_repositories_info.xml" value="0.25" />
-        <entry key="..\:/Users/anuta/AndroidStudioProjects/NaPopravku/app/src/main/res/layout/item_view.xml" value="0.3625" />
+        <entry key="..\:/Users/anuta/AndroidStudioProjects/NaPopravku/app/src/main/res/layout/fragment_repositories_info.xml" value="0.1" />
+        <entry key="..\:/Users/anuta/AndroidStudioProjects/NaPopravku/app/src/main/res/layout/item_view.xml" value="0.33436532507739936" />
       </map>
     </option>
   </component>

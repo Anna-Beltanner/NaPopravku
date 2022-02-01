@@ -9,8 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.napopravku.data.model.RepositoriesModel
 import com.example.napopravku.databinding.ItemViewBinding
 
-//данный класс отвечает за логику работы RV
-//корутина уходит из UI потока и делает запрос в сеть, возвращает результат в UI поток
+
 
 
 class RepositoriesAdapters(
@@ -61,7 +60,7 @@ class RepositoriesAdapters(
         if (position == items.size - 1) {
             onLastPosition (repository.id)
         }
-        //если позиция = последнему элементу айтемов, то сделать запрос след.
+        //если позиция = последнему элементу item, то сделать следующий запрос
     }
 
     override fun getItemCount(): Int {
